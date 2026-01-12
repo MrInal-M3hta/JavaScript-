@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DOM Manipulation 01</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        button { padding: 8px 12px; margin: 5px; cursor: pointer; }
+        .highlight { background-color: yellow; }
+        #demo { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+        #output { margin-top: 10px; color: blue; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>DOM Manipulation Examples</h1>
+
+    <div id="demo">
+        <p id="paragraph">Original text</p>
+        <ul id="list">
+            <li>Item 1</li>
+            <li>Item 2</li>
+        </ul>
+    </div>
+
+    <h3>Actions</h3>
+    <button id="getTextBtn">Get Text</button>
+    <button id="setTextBtn">Set Text</button>
+    <button id="addClassBtn">Add Class</button>
+    <button id="removeClassBtn">Remove Class</button>
+    <button id="createBtn">Create Element</button>
+    <button id="removeBtn">Remove Element</button>
+    <button id="setAttrBtn">Set Attribute</button>
+    <button id="getAttrBtn">Get Attribute</button>
+    <button id="firstChildBtn">Get First Child</button>
+    <button id="lastChildBtn">Get Last Child</button>
+
+    <p id="output"></p>
+</div>
+
+<script>
+    // Store elements once
+    let paragraph = document.getElementById("paragraph");
+    let list = document.getElementById("list");
+    let output = document.getElementById("output");
+
+    // 1. Get Text
+    document.getElementById("getTextBtn").addEventListener("click", getText);
+    function getText() {
+        output.textContent = "Text: " + paragraph.textContent;
+    }
+
+    // 2. Set Text
+    document.getElementById("setTextBtn").addEventListener("click", setText);
+    function setText() {
+        paragraph.textContent = "Updated text";
+    }
+
+    // 3. Add Class
+    document.getElementById("addClassBtn").addEventListener("click", addClass);
+    function addClass() {
+        paragraph.classList.add("highlight");
+    }
+
+    // 4. Remove Class
+    document.getElementById("removeClassBtn").addEventListener("click", removeClass);
+    function removeClass() {
+        paragraph.classList.remove("highlight");
+    }
+
+    // 5. Create Element
+    document.getElementById("createBtn").addEventListener("click", createElement);
+    function createElement() {
+        var li = document.createElement("li");
+        li.textContent = "New Item";
+        list.appendChild(li);
+    }
+
+    // 6. Remove Element
+    document.getElementById("removeBtn").addEventListener("click", removeElement);
+    function removeElement() {
+        if (list.lastElementChild) {
+            list.lastElementChild.remove();
+        }
+    }
+
+    // 7. Set Attribute
+    document.getElementById("setAttrBtn").addEventListener("click", setAttribute);
+    function setAttribute() {
+        paragraph.setAttribute("data-id", "123");
+        output.textContent = "Attribute set!";
+    }
+
+    // 8. Get Attribute
+    document.getElementById("getAttrBtn").addEventListener("click", getAttribute);
+    function getAttribute() {
+        output.textContent = "data-id: " + paragraph.getAttribute("data-id");
+    }
+
+    // 9. Get FIRST child (IMPORTANT)
+    document.getElementById("firstChildBtn").addEventListener("click", getFirstChild);
+    function getFirstChild() {
+        var first = list.firstElementChild;
+        if (first) {
+            output.textContent = "First Child: " + first.textContent;
+        } else {
+            output.textContent = "No child found";
+        }
+    }
+
+    // 10. Get LAST child (IMPORTANT)
+    document.getElementById("lastChildBtn").addEventListener("click", getLastChild);
+    function getLastChild() {
+        var last = list.lastElementChild;
+        if (last) {
+            output.textContent = "Last Child: " + last.textContent;
+        } else {
+            output.textContent = "No child found";
+        }
+    }
+</script>
+
+</body>
+</html>

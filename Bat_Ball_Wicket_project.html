@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Cricket Game</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Bat Ball Stump Game</h1>
+
+  <div id="controls">
+    <button onclick="playGame('Bat')">Bat</button>
+    <button onclick="playGame('Ball')">Ball</button>
+    <button onclick="playGame('Stump')">Stump</button>
+  </div>
+
+  <div id="stats" style="margin-top:20px;">
+    <strong>Scores:</strong>
+    <div>User: <span id="userScore">0</span></div>
+    <div>Computer: <span id="computerScore">0</span></div>
+    <div>Ties: <span id="ties">0</span></div>
+    <button id="resetBtn" style="margin-top:10px;">Reset Scores</button>
+  </div>
+
+  <script>
+    function getComputerChoice() {
+      const choices = ['Bat', 'Ball', 'Stump'];
+      const randomIndex = Math.floor(Math.random() * choices.length);
+      return choices[randomIndex];
+    }
+
+    function getResult(userChoice, computerChoice) {
+      if (userChoice === computerChoice) {
+        return "It's a tie";
+      }
+
+      if (
+        (userChoice === 'Bat' && computerChoice === 'Ball') ||
+        (userChoice === 'Ball' && computerChoice === 'Stump') ||
+        (userChoice === 'Stump' && computerChoice === 'Bat')
+      ) {
+        return 'User won.';
+      } else {
+        return 'Computer has won.';
+      }
+    }
+
+    function playGame(userChoice) {
+      const computerChoice = getComputerChoice();
+      const resultMsg = getResult(userChoice, computerChoice);
+
+      alert(
+        `You have chosen ${userChoice}.
+Computer chose ${computerChoice}.
+${resultMsg}`
+      );
+
+      const userScoreEl = document.getElementById('userScore');
+      const computerScoreEl = document.getElementById('computerScore');
+      const tiesEl = document.getElementById('ties');
+
+      // load current counts
+      const userCount = parseInt(localStorage.getItem('bb_user')) || 0;
+      const computerCount = parseInt(localStorage.getItem('bb_computer')) || 0;
+      const tiesCount = parseInt(localStorage.getItem('bb_ties')) || 0;
+      // parseInt() is a built-in JavaScript function that converts a value into an integer (number).
+      let newUser = userCount;
+      let newComputer = computerCount;
+      let newTies = tiesCount;
+
+      if (resultMsg === 'User won.') newUser++;
+      else if (resultMsg === 'Computer has won.') newComputer++;
+      else newTies++;
+
+      localStorage.setItem('bb_user', newUser);
+      localStorage.setItem('bb_computer', newComputer);
+      localStorage.setItem('bb_ties', newTies);
+
+      userScoreEl.textContent = newUser;
+      computerScoreEl.textContent = newComputer;
+      tiesEl.textContent = newTies;
+      /* 
+    👉 textContent is a property used to:
+      •	Read text
+      •	Change text
+        inside an HTML element.      
+      */
+    }
+
+    // initialize scores on load and wire reset
+    document.addEventListener('DOMContentLoaded', function () {
+      const userScoreEl = document.getElementById('userScore');
+      const computerScoreEl = document.getElementById('computerScore');
+      const tiesEl = document.getElementById('ties');
+
+      const userCount = parseInt(localStorage.getItem('bb_user')) || 0;
+      const computerCount = parseInt(localStorage.getItem('bb_computer')) || 0;
+      const tiesCount = parseInt(localStorage.getItem('bb_ties')) || 0;
+
+      userScoreEl.textContent = userCount;
+      computerScoreEl.textContent = computerCount;
+      tiesEl.textContent = tiesCount;
+
+      document.getElementById('resetBtn').addEventListener('click', function () {
+        localStorage.removeItem('bb_user');
+        localStorage.removeItem('bb_computer');
+        localStorage.removeItem('bb_ties');
+        userScoreEl.textContent = '0';
+        computerScoreEl.textContent = '0';
+        tiesEl.textContent = '0';
+      });
+    });
+  </script>
+
+</body>
+</html>
+
+<!--
+
+FLOWCHART:->
+
+START
+  ↓
+User clicks Bat / Ball / Stump
+  ↓
+Computer picks randomly
+  ↓
+Compare choices
+  ↓
+Is it tie?
+ ├─ YES → Increase Ties
+ └─ NO
+     ↓
+ Is user winner?
+ ├─ YES → Increase User score
+ └─ NO  → Increase Computer score
+  ↓
+Save scores to localStorage
+  ↓
+Update screen
+  ↓
+END
+
+-->

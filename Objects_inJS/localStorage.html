@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>localStorage Methods</title>
+</head>
+<body>
+    <h1>localStorage All Methods</h1>
+    <script>
+        
+        // 1. SET ITEM
+        function setItem(key, value) {
+            try {
+                localStorage.setItem(key, value);
+                console.log(`Set: ${key} = ${value}`);
+            } catch (error) {
+                console.error("Error setting item:", error);
+            }
+        }
+
+        // 2. GET ITEM
+        function getItem(key) {
+            try {
+                const value = localStorage.getItem(key);
+                console.log(`Get: ${key} = ${value}`);
+                return value;
+            } catch (error) {
+                console.error("Error getting item:", error);
+                return null;
+            }
+        }
+
+        // 3. REMOVE ITEM
+        function removeItem(key) {
+            try {
+                localStorage.removeItem(key);
+                console.log(`Removed: ${key}`);
+            } catch (error) {
+                console.error("Error removing item:", error);
+            }
+        }
+
+        // 4. CLEAR ALL
+        function clearAll() {
+            try {
+                localStorage.clear();
+                console.log("localStorage cleared");
+            } catch (error) {
+                console.error("Error clearing storage:", error);
+            }
+        }
+
+        // 5. GET KEY
+        function getKey(index) {
+            try {
+                const key = localStorage.key(index);
+                console.log(`Key at index ${index}: ${key}`);
+                return key;
+            } catch (error) {
+                console.error("Error getting key:", error);
+                return null;
+            }
+        }
+
+        // 6. GET LENGTH
+        function getLength() {
+            try {
+                const length = localStorage.length;
+                console.log(`localStorage length: ${length}`);
+                return length;
+            } catch (error) {
+                console.error("Error getting length:", error);
+                return 0;
+            }
+        }
+
+        // 7. STORE OBJECT
+        function setObject(key, obj) {
+            try {
+                localStorage.setItem(key, JSON.stringify(obj));
+                console.log(`Object stored: ${key}`);
+            } catch (error) {
+                console.error("Error storing object:", error);
+            }
+        }
+
+        // 8. RETRIEVE OBJECT
+        function getObject(key) {
+            try {
+                const item = localStorage.getItem(key);
+                return item ? JSON.parse(item) : null;
+            } catch (error) {
+                console.error("Error retrieving object:", error);
+                return null;
+            }
+        }
+
+        // Usage Examples
+        setItem("name", "Luffy");
+        setItem("age", "19");
+        getItem("name");
+        setObject("user", { id: 1, name: "Zoro" });
+        getLength();
+        removeItem("age");
+        // clearAll();
+    </script>
+</body>
+</html>

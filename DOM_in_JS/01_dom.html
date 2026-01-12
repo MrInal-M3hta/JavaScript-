@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DOM in JavaScript</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 8px 12px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>DOM (Document Object Model)</h1>
+
+    <!-- Selecting Elements -->
+    <div class="section">
+        <h2>1. Selecting Elements</h2>
+        <p id="para1">Select by ID</p>
+        <p class="para-class">Select by Class</p>
+        <button onclick="selectElements()">Try Selecting</button>
+    </div>
+
+    <!-- Manipulating Content -->
+    <div class="section">
+        <h2>2. Manipulating Content</h2>
+        <div id="content">Original Content</div>
+        <button onclick="changeContent()">Change Content</button>
+    </div>
+
+    <!-- Manipulating Attributes -->
+    <div class="section">
+        <h2>3. Manipulating Attributes</h2>
+        <img id="myImg" src="test.jpg" alt="Test">
+        <button onclick="changeAttributes()">Change Attributes</button>
+    </div>
+
+    <!-- Manipulating Styles -->
+    <div class="section">
+        <h2>4. Manipulating Styles</h2>
+        <p id="styled">Style me!</p>
+        <button onclick="changeStyles()">Change Styles</button>
+    </div>
+
+    <!-- Creating & Removing Elements -->
+    <div class="section">
+        <h2>5. Creating & Removing Elements</h2>
+        <ul id="myList">
+            <li>Item 1</li>
+            <li>Item 2</li>
+        </ul>
+        <button onclick="addElement()">Add Element</button>
+        <button onclick="removeElement()">Remove Element</button>
+    </div>
+
+    <!-- Event Handling -->
+    <div class="section">
+        <h2>6. Event Handling</h2>
+        <input type="text" id="myInput" placeholder="Type something">
+        <p id="output"></p>
+    </div>
+
+    <!-- Event Delegation -->
+    <div class="section">
+        <h2>7. Event Delegation</h2>
+        <ul id="eventList">
+            <li>Click me</li>
+            <li>Click me</li>
+            <li>Click me</li>
+        </ul>
+    </div>
+
+    <script>
+        /*
+        
+        The Document Object Model (DOM) is a programming interface for web documents. It represents the page so that programs can change the document structure, style, and content. The DOM represents the document as nodes and objects; that way, programming languages can interact with the page.
+
+        Common DOM Properties:-
+          1)  tagName       : returns tag for element nodes
+          2)  innerText     : returns the text content of the element and all its children
+          3)  innerHTML     : returns the plain text or HTML contents in the element
+          4)  textContent   : returns textual content even for hidden elements
+
+            1. SELECTING ELEMENTS
+                - getElementById(id): Returns the element with the specified ID.
+                - getElementsByClassName(className): Returns a collection of elements with the specified class name.
+                - getElementsByTagName(tagName): Returns a collection of elements with the specified tag name.
+                - querySelector(selector): Returns the first element that matches a specified CSS selector.
+                - querySelectorAll(selector): Returns a collection of all elements that match a specified CSS selector.
+    
+            2. MANIPULATING CONTENT
+                - textContent: Get or set the text content of an element.
+                - innerHTML: Get or set the HTML content of an element.
+    
+            3. MANIPULATING ATTRIBUTES
+                - setAttribute(attr, value): Sets the value of an attribute on the specified element.
+                - getAttribute(attr): Gets the value of an attribute on the specified element.
+                - removeAttribute(attr): Removes an attribute from the specified element.
+    
+            4. MANIPULATING STYLES
+                - style.property: Access and modify individual CSS properties of an element.
+    
+            5. CREATING & REMOVING ELEMENTS
+                - createElement(tag): Creates a new element with the specified tag name.
+                - appendChild(child): Adds a new child element to a parent element.
+                - removeChild(child): Removes a child element from a parent element.
+    
+            6. EVENT HANDLING
+                - addEventListener(event, function): Attaches an event handler to an element for a specific event.
+    
+            7. EVENT DELEGATION
+                - Attach a single event listener to a parent element to manage events for its child elements.
+
+        console.dir(window.document);
+
+
+        console.dir(document.body);
+        console.dir(window.document.body);
+
+        console.log(document.body); 
+        console.log(window.document.body); 
+
+        console.dir(document.head);
+        console.dir(window.document.head);
+
+        console.log(document.head); 
+        console.log(window.document.head);
+            
+        */
+       
+        // 1. SELECTING ELEMENTS
+        function selectElements() {
+            // By ID;  Returns the element with the specified ID.
+            const byId = document.getElementById('para1');
+            
+            // By Class; Returns a collection of elements with the specified class name.
+            const byClass = document.getElementsByClassName('para-class');
+            
+            // By Tag; Returns a collection of elements with the specified tag name.
+            const byTag = document.getElementsByTagName('p');
+            
+            // CSS Selectors (single); Returns the first element that matches a specified CSS selector.
+            const cssSelector = document.querySelector('.para-class');
+            
+            // CSS Selectors (multiple); Returns a collection of all elements that match a specified CSS selector.
+            const cssSelectors = document.querySelectorAll('p');
+            
+            console.log(byId, byClass, byTag, cssSelector, cssSelectors);
+        }
+
+        // 2. MANIPULATING CONTENT
+        function changeContent() {
+            const elem = document.getElementById('content');
+            elem.textContent = 'Changed text'; // Only text
+            elem.innerHTML = '<strong>Changed with HTML</strong>'; // With HTML
+        }
+
+        // 3. MANIPULATING ATTRIBUTES
+        function changeAttributes() {
+            const img = document.getElementById('myImg');
+            img.setAttribute('src', 'new.jpg');
+            img.getAttribute('alt'); // Get attribute
+            img.removeAttribute('alt');
+        }
+
+        // 4. MANIPULATING STYLES
+        function changeStyles() {
+            const p = document.getElementById('styled');
+            p.style.color = 'red';
+            p.style.fontSize = '20px';
+            p.style.backgroundColor = 'yellow';
+        }
+
+        // 5. CREATING & REMOVING ELEMENTS
+        function addElement() {
+            const list = document.getElementById('myList');
+            const newItem = document.createElement('li');
+            newItem.textContent = 'New Item';
+            list.appendChild(newItem);
+        }
+
+        function removeElement() {
+            const list = document.getElementById('myList');
+            if (list.children.length > 0) {
+                list.removeChild(list.lastChild);
+            }
+        }
+
+        // 6. EVENT HANDLING
+        document.getElementById('myInput').addEventListener('input', function(event) {
+            document.getElementById('output').textContent = event.target.value;
+        });
+
+        // 7. EVENT DELEGATION
+        document.getElementById('eventList').addEventListener('click', function(event) {
+            if (event.target.tagName === 'LI') {
+                event.target.style.color = 'blue';
+            }
+        });
+    </script>
+</body>
+</html>

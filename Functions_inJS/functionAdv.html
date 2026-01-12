@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+<p>After a function has been stored in a variable,
+the variable can be used as a function:</p>
+<p>Functions can be used in expressions.</p>
+
+<p id="Nobita"></p>
+
+<script>
+/*
+
+    After a function expression has been stored in a variable, the variable can be used as a function:
+
+*/    
+const x = function (a, b) {return a * b};
+document.getElementById("Nobita").innerHTML = x(4, 3);
+/*
+
+    Here, the function expression is stored in the variable x.
+    The function takes two parameters (a and b) and returns their product.
+    The function is then called using the variable name x, passing in the values 4 and 3 as arguments.
+    The result (12) is displayed in the HTML element with the id "Nobita".
+
+*/
+let y;
+y = function (a, b) {return a * b};
+document.getElementById("Nobita").innerHTML = x(4, 3);
+
+/*
+
+    JavaScript functions can be used in expressions:
+
+*/
+
+function myFunction(a, b) {
+  return a * b;
+}
+let z = myFunction(4, 3) * 2;
+document.getElementById("Nobita").innerHTML = z;
+</script>
+
+</body>
+</html>
+
+
+

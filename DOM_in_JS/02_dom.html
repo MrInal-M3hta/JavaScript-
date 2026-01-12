@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DOM Manipulation</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        button { padding: 8px 12px; margin: 5px; cursor: pointer; }
+        .highlight { background-color: yellow; }
+        #demo { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DOM Manipulation Examples</h1>
+        
+        <div id="demo">
+            <p id="paragraph">Original text</p>
+            <ul id="list">
+                <li>Item 1</li>
+                <li>Item 2</li>
+            </ul>
+        </div>
+
+        <h3>Manipulation Examples:</h3>
+        <button onclick="getText()">Get Text</button>
+        <button onclick="setText()">Set Text</button>
+        <button onclick="getHTML()">Get HTML</button>
+        <button onclick="setHTML()">Set HTML</button>
+        <button onclick="addClass()">Add Class</button>
+        <button onclick="removeClass()">Remove Class</button>
+        <button onclick="createElement()">Create Element</button>
+        <button onclick="removeElement()">Remove Element</button>
+        <button onclick="setAttribute()">Set Attribute</button>
+        <button onclick="getAttribute()">Get Attribute</button>
+    </div>
+
+    <script>
+        // 1. Get/Set Text Content
+        function getText() {
+            const text = document.getElementById('paragraph').textContent ;
+            console.log('Text:', text);
+        }
+
+        function setText() {
+            document.getElementById('paragraph').textContent = 'Updated text';
+        }
+
+        // 2. Get/Set HTML
+        function getHTML() {
+            const html = document.getElementById('demo').innerHTML;
+            console.log('HTML:', html);
+        }
+
+        function setHTML() {
+            document.getElementById('demo').innerHTML = '<p>New HTML content</p>';
+        }
+
+        // 3. Add/Remove Classes
+        function addClass() {
+            document.getElementById('paragraph').classList.add('highlight');
+        }
+
+        function removeClass() {
+            document.getElementById('paragraph').classList.remove('highlight');
+        }
+
+        // 4. Create & Append Elements
+        function createElement() {
+            const newItem = document.createElement('li');
+            newItem.textContent = 'New Item';
+            document.getElementById('list').appendChild(newItem);
+        }
+
+        // 5. Remove Elements
+        function removeElement() {
+            const items = document.querySelectorAll('li');
+            if (items.length > 0) items[items.length - 1].remove();
+        }
+
+        // 6. Set/Get Attributes
+        function setAttribute() {
+            document.getElementById('paragraph').setAttribute('data-id', '123');
+        }
+
+        function getAttribute() {
+            const id = document.getElementById('paragraph').getAttribute('data-id');
+            console.log('Attribute:', id);
+        }
+
+        // 7. First Child and Last Child
+        function getFirstChild() {
+            const first = document.getElementById('list').firstChild;
+            console.log('First Child:', first);
+        }
+
+        function getLastChild() {
+            const last = document.getElementById('list').lastChild;
+            console.log('Last Child:', last);
+        }
+
+    </script>
+</body>
+</html>
