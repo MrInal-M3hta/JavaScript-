@@ -6,9 +6,11 @@
 </head>
 <body>
     
-    <h1 id="heading" class="H1"> DOM Basics </h1>
+    <h1 id="heading1" class="heading-class"> DOM Basics </h1>
+    <h1 id="heading2" class="heading-class"> changing HTML with JavaScript...!!</h1>
+    <p id="para" class="lorem para">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ratione, blanditiis nulla officia veniam ut a aperiam incidunt voluiam sed?</p>
 
-    <button id="myButton">Click Me</button>
+    <button id="myButton" class="button-class">Click Me</button>
     <div id="myDiv" class="container">
         <p id="myParagraph">Hello, DOM!</p>
         <ul id="myList">
@@ -17,13 +19,17 @@
             <li>Item 3</li>
         </ul>
     </div>
-
+    <ul id="MyUl">
+        <li id="MyLi" class="list-item">001</li>
+        <li id="MyLi" class="list-item">002</li>
+        <li id="MyLi" class="list-item">003</li>
+    </ul>
     <style>
         .container {
             border: 2px solid #333;
             padding: 20px;
             margin: 20px 0;
-            background-color: #f0f0f0;
+            background-color: #a5f1d1;
             border-radius: 5px;
         }
         
@@ -55,7 +61,7 @@
         }
         
         button:hover {
-            background-color: #0052a3;
+            background-color: #83b7eb;
         }
         
         input[type="text"] {
@@ -69,7 +75,78 @@
     <input type="text" id="myInput" placeholder="Type something...">
 
     <script>
+        document.getElementById("heading1");
+        document.getElementById("heading1").id;
+        document.getElementById("heading1").getAttribute("id");
+        document.getElementById("heading1").className;
+        document.getElementById("heading1").getAttribute("class");
+        document.getElementById("heading1").setAttribute("class", "h1heading");
+        const heading = document.getElementById("heading1");
+        heading.style.color = "red";
+        heading.style.backgroundColor = "grey";
+        heading.style.padding = "10px";
+        heading.style.textAlign = "center";
+        heading.style.borderRadius = "45px";
+        heading.textContent;
+        heading.innerText;
+        heading.innerHTML;
+        document.getElementById("heading2").style.textAlign = "center";
+        document.getElementById("heading2").style.color = "blue";
 
+
+        document.querySelector('input[type = "text"]'); 
+        document.querySelector("ul");
+        document.querySelector("#para");
+        document.querySelector(".lorem para");
+        const myUl = document.querySelector("ul");
+        const turnGreen= myUl.querySelector("li");
+        turnGreen.backgroundColor = "red";
+        turnGreen.style.padding = "15px";
+        document.querySelector("div");
+        document.querySelector("h1");
+        document.querySelector("p").style.fontSize = "20px";
+        document.querySelector("p").style.color = "purple";
+
+
+        document.querySelectorAll("li"); // This willalways retun value as NodeList even if there is only one element;
+        document.querySelectorAll(".list-item");
+        document.querySelectorAll("#myButton");
+        document.querySelectorAll("div.container p");
+        document.querySelectorAll("ul li");
+        const listItems = document.querySelectorAll("li");
+        // listItems[0].style.color = "green";
+        // listItems[1].style.color = "blue";
+        // listItems[2].style.color = "red";
+        listItems.forEach((item) => {
+             listItems[0].style.color = "green";
+             listItems[1].style.color = "blue";
+             listItems[2].style.color = "red";
+        });
+        // document.querySelectorAll("input[type = 'text']").style.border = "2px solid blue"; // This will give error as we cannot apply style directly on NodeList;
+        document.querySelectorAll("#myInput").forEach((item) => {
+            item.style.border = "2px solid blue";
+            item.style.color = "darkblue";
+            item.style.backgroundColor = "lightyellow";
+
+        });
+        
+
+
+        document.getElementsByClassName("list-item"); // This will always return value as HTMLCollection even if there is only one element;
+        const myList = document.getElementsByClassName("list-item");
+        myList[0].style.color = "red";
+        myList[1].style.color = "green";
+        myList[2].style.color = "blue";
+        Array.from(myList); // Converting HTMLCollection into Array
+        Array.from(myList).forEach((item) => {
+            item.style.backgroundColor = "lightgrey";
+        });
+        // document.getElementsByClassName("button-class").style.backgroundColor = "orange"; // This will give error as we cannot apply style directly on HTMLCollection;
+        const buttons = document.getElementsByClassName("button-class");
+        Array.from(buttons).forEach(function(item) {
+            item.style.backgroundColor = "orange";
+            item.style.color = "white";
+        });
     </script>
 </body>
 </html>
