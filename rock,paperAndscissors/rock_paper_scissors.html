@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock Paper Scissors Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .rock { background-color: #ff7675; }
+        .paper { background-color: #74b9ff; }
+        .scissors { background-color: #55efc4; }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Rock Paper Scissors</h1>
+
+    <button class="rock" onclick="playGame('rock')">Rock</button>
+    <button class="paper" onclick="playGame('paper')">Paper</button>
+    <button class="scissors" onclick="playGame('scissors')">Scissors</button>
+
+    <div id="result"></div>
+
+    <div id="scoreboard" style="margin-top:20px;">
+        <p id="player-score">Player: 0</p>
+        <p id="computer-score">Computer: 0</p>
+        <p id="draw-count">Draws: 0</p>
+        <button id="reset-scores" style="margin-top:10px; padding:8px 12px;">Reset Scores</button>
+    </div>
+
+    <script>
+        // load scores from localStorage or initialize
+        let playerScore = localStorage.getItem('rps_player') || 0;
+        let computerScore = localStorage.getItem('rps_computer') || 0;
+        let drawCount = localStorage.getItem('rps_draw') || 0;
+
+        function updateScoreboard() {
+            document.getElementById('player-score').textContent = 'Player: ' + playerScore;
+            document.getElementById('computer-score').textContent = 'Computer: ' + computerScore;
+            document.getElementById('draw-count').textContent = 'Draws: ' + drawCount;
+        }
+
+        function saveScores() {
+            localStorage.setItem('rps_player', playerScore);
+            localStorage.setItem('rps_computer', computerScore);
+            localStorage.setItem('rps_draw', drawCount);
+        }
+
+        function playGame(userChoice) {
+            let choices = ["rock", "paper", "scissors"];
+            let computerChoice = choices[Math.floor(Math.random() * 3)];
+            let result = "";
+
+            if (userChoice === computerChoice) {
+                result = "It's a Draw!";
+                drawCount++;
+            } 
+            else if (
+                (userChoice === "rock" && computerChoice === "scissors") ||
+                (userChoice === "paper" && computerChoice === "rock") ||
+                (userChoice === "scissors" && computerChoice === "paper")
+            ) {
+                result = "🎉 You Win!";
+                playerScore++;
+            } 
+            else {
+                result = "😢 Computer Wins!";
+                computerScore++;
+            }
+
+            saveScores();
+            updateScoreboard();
+
+            document.getElementById("result").innerHTML =
+                "Your Choice: " + userChoice +
+                "<br>Computer Choice: " + computerChoice +
+                "<br>Result: " + result;
+        }
+
+        // reset button
+        document.getElementById('reset-scores').addEventListener('click', function() {
+            playerScore = 0;
+            computerScore = 0;
+            drawCount = 0;
+            saveScores();
+            updateScoreboard();
+            document.getElementById('result').innerHTML = 'Scores reset.';
+        });
+
+        // initialize scoreboard on load
+        updateScoreboard();
+    </script>
+
+</body>
+</html>
+
+
+<!--
+
+🧠 0. JavaScript – Core Logic (Main Focus)
+
+
+ What is localStorage? (VERY IMPORTANT)
+
+🔹 Simple definition:
+
+localStorage is a small memory inside the browser
+It stores data permanently (until you delete it).
+
+Even if:
+	•	You refresh the page
+	•	You close the browser
+	•	You open the site tomorrow
+
+👉 The data is still there.
+
+🔹 Why use localStorage here?
+
+To remember scores instead of resetting them every time.
+
+
+🧪 1. Loading Scores from localStorage
+
+let playerScore = localStorage.getItem('rps_player') || 0;
+let computerScore = localStorage.getItem('rps_computer') || 0;
+let drawCount = localStorage.getItem('rps_draw') || 0;
+
+Line-by-line explanation:
+
+localStorage.getItem('rps_player')
+    •	Tries to read saved data
+    •	If data exists → returns it
+	•	If data does NOT exist → returns null
+
+|| 0
+	•	Means:
+    👉 “If nothing is found, start from 0”
+
+💡 Example:
+    null || 0  →  0
+    5 || 0     →  5
+
+So:
+	•	First time → score = 0
+	•	Later → score = saved value
+
+🖥️ 2. Showing Scores on Screen
+
+function updateScoreboard() {
+    document.getElementById('player-score').textContent = 'Player: ' + playerScore;
+    document.getElementById('computer-score').textContent = 'Computer: ' + computerScore;
+    document.getElementById('draw-count').textContent = 'Draws: ' + drawCount;
+}
+What this does:
+	•	Updates HTML text
+	•	Shows current scores
+	•	Called:
+	•	When page loads
+	•	After every game
+	•	After reset
+
+💾 3. Saving Scores to localStorage
+
+function saveScores() {
+    localStorage.setItem('rps_player', playerScore);
+    localStorage.setItem('rps_computer', computerScore);
+    localStorage.setItem('rps_draw', drawCount);
+}
+Important rules of localStorage:
+	•	Key–Value pairs
+	•	Data is stored as strings
+	•	Format:
+               localStorage.setItem("key", value);
+
+📌 Example:
+localStorage.setItem("score", 5);
+
+Browser stores:=>  "score" → "5"
+
+🎮 4. Playing the Game (playGame function)
+
+function playGame(userChoice) {
+	•	Called when button is clicked
+	•	userChoice = "rock" / "paper" / "scissors"
+
+🎲 Computer Choice
+let choices = ["rock", "paper", "scissors"];
+let computerChoice = choices[Math.floor(Math.random() * 3)];
+Breakdown:
+	•	Math.random() → number between 0 and 0.999
+	•	* 3 → 0–2.999
+	•	Math.floor() → 0, 1, or 2
+	•	Used as array index
+
+🏆 Decide Winner
+if (userChoice === computerChoice) {
+    result = "It's a Draw!";
+    drawCount++;
+}
+
+•	Same choice → draw
+
+else if (
+    (userChoice === "rock" && computerChoice === "scissors") ||
+    (userChoice === "paper" && computerChoice === "rock") ||
+    (userChoice === "scissors" && computerChoice === "paper")
+)
+•	All winning combinations
+
+playerScore++;
+•	Increase player score
+
+else {
+    computerScore++;
+}
+•	Otherwise → computer wins
+
+💾 Save & Update
+
+saveScores();
+updateScoreboard();
+•	Save new scores
+•	Updates screen instantly
+
+📢 Show Result
+
+document.getElementById("result").innerHTML =
+    "Your Choice: " + userChoice +
+    "<br>Computer Choice: " + computerChoice +
+    "<br>Result: " + result;
+
+Displays:
+	•	Your choice
+	•	Computer choice
+	•	Result message
+
+🔄 5. Reset Button Logic
+
+document.getElementById('reset-scores').addEventListener('click', function() {
+•	Runs when reset button is clicked
+
+playerScore = 0;
+computerScore = 0;
+drawCount = 0;
+•	Resets scores to 0
+
+saveScores();
+updateScoreboard();
+•	Save zero values
+•	Update screen
+document.getElementById('result').innerHTML = 'Scores reset.';
+
+🚀 6. Page Load Initialization
+updateScoreboard();
+•	Runs once when page loads
+•	Shows saved scores immediately
+-->

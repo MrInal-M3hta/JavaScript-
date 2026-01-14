@@ -6,6 +6,70 @@
 </head>
 <body>
     
-    <h1></h1>
+    <h1 id="heading" class="H1"> DOM Basics </h1>
+
+    <button id="myButton">Click Me</button>
+    <div id="myDiv" class="container">
+        <p id="myParagraph">Hello, DOM!</p>
+        <ul id="myList">
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+        </ul>
+    </div>
+
+    <style>
+        .container {
+            border: 2px solid #333;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        
+        #myParagraph {
+            color: #0066cc;
+            font-size: 18px;
+        }
+        
+        #myList {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        #myList li {
+            padding: 8px;
+            margin: 5px 0;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 3px;
+        }
+        
+        button:hover {
+            background-color: #0052a3;
+        }
+        
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+    </style>
+    <br><br>
+    <input type="text" id="myInput" placeholder="Type something...">
+
+    <script>
+
+    </script>
 </body>
 </html>
