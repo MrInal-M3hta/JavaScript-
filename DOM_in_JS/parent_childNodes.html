@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Parent–Child Nodes in DOM</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      margin: auto;
+      width: 400px;
+      border-radius: 5px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: #e3e3ff;
+      padding: 10px;
+      margin: 5px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .info {
+      margin-top: 15px;
+      background: #eee;
+      padding: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>🌳 Parent–Child Nodes in DOM</h2>
+
+  <div class="container">
+
+    <input type="text" id="itemInput" placeholder="Enter item">
+    <button id="addBtn">Add Item</button>
+
+    <ul id="list">
+      <li>Item 1 <button class="removeBtn">❌</button></li>
+      <li>Item 2 <button class="removeBtn">❌</button></li>
+    </ul>
+
+    <button id="showInfo">Show Parent–Child Info</button>
+
+    <div class="info" id="infoBox">
+      Info will appear here...
+    </div>
+
+  </div>
+
+  <script>
+    // Selecting elements
+    let addBtn = document.getElementById("addBtn");
+    let itemInput = document.getElementById("itemInput");
+    let list = document.getElementById("list");
+    let infoBox = document.getElementById("infoBox");
+    let showInfo = document.getElementById("showInfo");
+
+    // ADD CHILD (li) TO PARENT (ul)
+    addBtn.addEventListener("click", function () {
+
+      if (itemInput.value === "") {
+        alert("Please enter a value");
+        return;
+      }
+
+      let li = document.createElement("li");     // child
+      li.textContent = itemInput.value;
+
+      let delBtn = document.createElement("button");
+      delBtn.textContent = "❌";
+
+      // REMOVE PARENT USING CHILD
+      delBtn.addEventListener("click", function () {
+        this.parentElement.remove();
+      });
+
+      li.appendChild(delBtn);    // button → li
+      list.appendChild(li);      // li → ul
+
+      itemInput.value = "";
+    });
+
+    // REMOVE EXISTING ITEMS
+    list.addEventListener("click", function (e) {
+      if (e.target.classList.contains("removeBtn")) {
+        e.target.parentElement.remove();
+      }
+    });
+
+    // SHOW PARENT–CHILD INFO
+    showInfo.addEventListener("click", function () {
+
+      infoBox.innerHTML = `
+        <b>Parent Node:</b> ${list.parentElement.tagName}<br>
+        <b>Total Child Elements:</b> ${list.children.length}<br>
+        <b>First Child:</b> ${list.firstElementChild.textContent}<br>
+        <b>Last Child:</b> ${list.lastElementChild.textContent}
+      `;
+    });
+  </script>
+
