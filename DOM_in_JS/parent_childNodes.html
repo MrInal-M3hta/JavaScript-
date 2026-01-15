@@ -122,5 +122,145 @@
         <b>Last Child:</b> ${list.lastElementChild.textContent}
       `;
     });
+    /*
+        div.container
+        └── ul#list (parent)
+            ├── li (child)
+            │    └── button
+            ├── li
+            │    └── button
+     */
   </script>
 
+
+
+<!--
+  🟢 PARENT NODES
+
+1️⃣ parentNode
+
+Returns any parent node (element, document, etc.)
+javascript:
+const parent = child.parentNode;
+✔ Can return document
+❌ Can return text nodes
+
+
+2️⃣ parentElement (RECOMMENDED ✅)
+
+Returns only element parents
+javascript:
+const parent = child.parentElement;
+✔ Always returns an element or null
+❌ Never returns text nodes
+
+
+
+🟡 CHILD NODES
+
+1️⃣ childNodes ⚠️
+
+Returns ALL child nodes
+	•	elements
+	•	text (spaces, line breaks)
+	•	comments
+javascript:
+const children = parent.childNodes;
+✔ Access all node types
+❌ Includes unwanted text nodes
+
+
+2️⃣ children (MOST USED ✅)
+
+Returns ONLY element children
+javascript:
+const children = parent.children;
+✔ Only element nodes
+❌ Excludes text nodes
+
+
+3️⃣ firstChild vs firstElementChild
+
+firstChild
+Returns the first child node (any type)
+javascript:
+const first = parent.firstChild;
+✔ Access any node type
+❌ May return text nodes  
+
+firstElementChild (RECOMMENDED ✅)
+Returns the first child element
+javascript:
+const first = parent.firstElementChild;
+✔ Always returns an element or null
+❌ Never returns text nodes
+
+
+4️⃣ lastChild vs lastElementChild
+
+lastChild
+Returns the last child node (any type)
+javascript:
+const last = parent.lastChild;
+✔ Access any node type
+❌ May return text nodes
+
+lastElementChild (RECOMMENDED ✅)
+Returns the last child element
+javascript:
+const last = parent.lastElementChild;
+✔ Always returns an element or null
+❌ Never returns text nodes
+
+
+
+🔵 SIBLING NODES (Related to Parent-Child)
+
+1️⃣ nextSibling vs nextElementSibling
+
+nextSibling
+Returns the next sibling node (any type)
+javascript:
+const next = node.nextSibling;
+✔ Access any node type
+❌ May return text nodes
+
+nextElementSibling (RECOMMENDED ✅)
+Returns the next sibling element
+javascript:
+const next = node.nextElementSibling;
+✔ Always returns an element or null
+❌ Never returns text nodes
+
+
+2️⃣ previousSibling vs previousElementSibling
+
+previousSibling
+Returns the previous sibling node (any type)
+javascript:
+const prev = node.previousSibling;
+✔ Access any node type
+❌ May return text nodes
+
+previousElementSibling (RECOMMENDED ✅)
+Returns the previous sibling element
+javascript:
+const prev = node.previousElementSibling;
+✔ Always returns an element or null
+❌ Never returns text nodes
+
+
+
+🔴 NODE TYPES (VERY IMPORTANT)
+Each node has a nodeType property indicating its type:
+1 - Element
+2 - Attribute
+3 - Text
+8 - Comment
+9 - Document
+10 - DocumentType
+
+JavaScript Example:
+const nodeType = someNode.nodeType;
+
+-->
