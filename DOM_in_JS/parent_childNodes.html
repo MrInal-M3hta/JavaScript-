@@ -86,7 +86,7 @@
       if (itemInput.value === "") {
         alert("Please enter a value");
         return;
-      }
+      };
 
       let li = document.createElement("li");     // child
       li.textContent = itemInput.value;
@@ -276,5 +276,60 @@ createDocumentFragment    Fast multiple insert
 createRange               DOM selection
 createEvent               Old event creation
 
+
+
+
+📌 append() in JavaScript (DOM)
+
+append() is a modern DOM method used to add elements or text at the end of a parent element.
+JavaScript:
+parent.append(nodeOrText1, nodeOrText2, ...);
+
+🟢 Basic Example
+
+HTML:
+<ul id="list"></ul>
+JavaScript:
+const list = document.getElementById("list");
+
+const li = document.createElement("li");
+li.textContent = "Item 1";
+
+list.append(li);
+➡️ Adds <li> at the end of <ul>
+
+🟢 Append Text
+JavaScript:
+document.body.append("Hello World");
+✔ You can append plain text directly
+
+
+🟢 Append Multiple Nodes
+
+Javascript:
+const p1 = document.createElement("p");
+p1.textContent = "Paragraph 1";
+
+const p2 = document.createElement("p");
+p2.textContent = "Paragraph 2";
+
+document.body.append(p1, p2);
+✔ Multiple elements in one line
+
+
+🟢 Move Existing Element
+
+JavaScript:
+const box = document.getElementById("box");
+document.body.append(box);
+✔ Moves the element (does NOT copy)
+
+🟢 Append vs appendChild (IMPORTANT)
+
+append              appendChild
+Multiple nodes      Single node
+Text allowed        Node only
+No return value     Returns node
+Modern              Older
 
 -->

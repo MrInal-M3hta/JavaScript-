@@ -73,6 +73,16 @@ console.log(strCopy);
 // Expected output: Array ["The quick brown fox jumps over the lazy dog."]
 //For more about split=> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split 
 
+// let strr = "Hello";
+// strr = strr.concat(" World");
+
+// let str = "Hello";
+// str += " World";
+
+// let str = "Hello";
+// str = `${str} World`;
+
+
 
 // For more about Strins in Java Script read MDN;
 
