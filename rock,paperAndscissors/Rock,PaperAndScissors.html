@@ -2,14 +2,33 @@
 <html>
   <head>
     <title>Rock Paper Scissors</title>
+    <style>
+      body {
+        padding:0px;
+        margin:0px;
+        background: black;
+        color: white;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      }
+      #heading {
+        font-size: 30px;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
-    <p>Rock Paper Scissors</p>
+    <p id="heading">Rock Paper Scissors</p>
     <button onclick="playGame('rock');">Rock</button>
 
     <button onclick="playGame('paper');">Paper</button>
 
     <button onclick="playGame('scissors');">Scissors</button>
+
+    <p id="js-result"></p>
+
+    <p id="js-moves"></p>
+
+    <p id="js-score"></p>
 
     <button onclick="resetScore();">Reset Score</button>
 
@@ -34,7 +53,15 @@
       */
        console.log(typeof score); // object
 
+       updateScoreElement();
+
       function playGame(playerMove) {
+        // ✅ EARLY EXIT (defensive check)
+        if (!playerMove) {
+          console.log("User chose:", playerMove);
+          return;
+        }; // If playerMove does NOT exist or is invalid, stop the function immediately.
+
         const computerMove = pickComputerMove();
 
         let result = '';
@@ -77,9 +104,19 @@
 
         localStorage.setItem('score', JSON.stringify(score));
 
-        alert(`You picked ${playerMove}. Computer picked ${computerMove}. ${result}
-Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`);
-      }
+        updateScoreElement();
+
+      const jsResult = document.getElementById("js-result");
+      jsResult.textContent = result;
+
+      const jsMoves = document.getElementById("js-moves");
+      jsMoves.textContent = `You picked ${playerMove}. Computer picked ${computerMove}.`
+      };
+
+      function updateScoreElement(){
+        const jsScore = document.getElementById("js-score");
+       jsScore.textContent = `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
+      };
 
       function pickComputerMove() {
         const randomNumber = Math.random();
@@ -99,8 +136,13 @@ Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`);
 
       function resetScore() {
         score = {wins: 0, losses: 0, ties: 0};
-        localStorage.removeItem('score');
-        alert('Score reset.');
+        localStorage.removeItem('score');  
+        updateScoreElement();
+        const jsResult = document.getElementById("js-result");
+        jsResult.textContent = "Play your Chance first";
+        const jsMoves = document.getElementById("js-moves");
+        jsMoves.textContent = "";
+        // alert('Score reset.');
       }
     </script>
   </body>
@@ -231,6 +273,33 @@ Save score
 Show result
  ↓
 END
+
+
+
+1️⃣ Why do we use updateScoreElement() many times?
+
+Short answer (exam-ready):
+
+Because the score changes at different times, and the HTML must be updated every time the score changes.
+
+
+🧠 Think of it like this
+
+There are two things:
+	•	score → JavaScript object (DATA)
+	•	<p id="js-score"> → HTML (UI)
+
+👉 Changing data does NOT automatically update HTML
+
+So every time score changes, we must manually update the UI.
+
+That’s exactly what updateScoreElement() does.
+
+❓ Why not call it only once?
+
+❌ Because JavaScript does not re-render HTML automatically
+❌ HTML will still show old values
+
 
 
 -->
