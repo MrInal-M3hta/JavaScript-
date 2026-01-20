@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Stop Interval</title>
+</head>
+<body>
+  <h1>Chai aur JavaScript ☕</h1>
+  <button id="start">Start</button>
+  <button id="stop">Stop</button>
+
+  <script>
+
+    // const sayDate = function(str){
+    //     console.log(str, Date.now());
+    // }
+
+    // const intervalId = setInterval(sayDate, 1000, "hi")
+
+    // clearInterval(intervalId)
+
+    // Update version of this code below ;
+
+
+    const sayDate = function (str) {
+      console.log(str, Date.now());
+    };
+
+    let intervalId; // 🔑 store interval ID globally, Also intervalID is undefined and in JS undefined is a falsy value 
+
+    // START button
+    document.getElementById("start").addEventListener("click", function () {
+      if (!intervalId) { // prevent multiple intervals
+        /*
+            This code means (!intervalId) this will be true when inervalID is undefined or null then it will return false, with the help of ! false value turns into true so this if statement will run. 
+            [
+            !intervalId === true 
+            when? = intervalId === null
+            ]
+            ✔ Start interval only if it is not already running.
+
+        */
+        intervalId = setInterval(sayDate, 1000, "Hi 'Luffy!' ");
+      };
+    });
+
+    // STOP button
+    document.getElementById("stop").addEventListener("click", function () {
+      clearInterval(intervalId);
+      intervalId = null; // reset
+    });
+  </script>
+</body>
+</html>

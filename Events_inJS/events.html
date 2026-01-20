@@ -43,12 +43,13 @@
          console.log("google clicked");
      }, false)
    
-    
+     
+    //Event eligation;
     document.querySelector('#images').addEventListener('click', function(e){
         console.log(e.target.tagName);// • Ensures only images are processed; • tagName is always UPPERCASE;
         if (e.target.tagName === 'IMG') {
             console.log(e.target.id);
-            let removeIt = e.target.parentNode
+            let removeIt = e.target.parentElement;
             removeIt.remove()
    /* 
     Notes:
@@ -56,10 +57,10 @@
         •	parentNode → <li>
         •	Removes whole <li>, not just image
     */   
-        }
+        };
     
         
-    })
+    });
     
     removeIt.parentNode.removeChild(removeIt)
 </script>
