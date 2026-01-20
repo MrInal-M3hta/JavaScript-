@@ -45,4 +45,5 @@ In JavaScript, these are false values:
 	•	false
 	•	"" (empty string)
     •	NaN (Not a Number)  
+Everything else then these values all are true 
 */

@@ -1,27 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Stop Timeout</title>
+</head>
+<body>
+  <h1>setTimeout</h1>
+  <button id="start">Start</button>
+  <button id="stop">Stop</button>
+
+  <script>
+    const changeText = function () {
+      document.querySelector('h1').innerHTML = "One Piece is real";
+    };
+
+    let timeoutId = null; // 🔑 store timeout id
+
+    // START
+    document.querySelector('#start').addEventListener('click', function () {
+      if (!timeoutId) { // prevent multiple timeouts
+        timeoutId = setTimeout(changeText, 2000);
+        console.log("Timeout started");
+      }
+    });
+
+    // STOP
+    document.querySelector('#stop').addEventListener('click', function () {
+      clearTimeout(timeoutId);
+      timeoutId = null; // reset
+      console.log("STOPPED");
+    });
+  </script>
+</body>
+</html>
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <h1>Chai aur code</h1>
+    <h1>Luffy is sun god</h1>
     <button id="stop">Stop</button>
 </body>
 <script>
-    const sayHitesh = function(){
-        console.log("Hitesh");
-    }
+
     const changeText = function(){
         document.querySelector('h1').innerHTML = "best JS series"
-    }
+    };
 
     const changeMe = setTimeout(changeText, 2000)
 
     document.querySelector('#stop').addEventListener('click', function(){
         clearTimeout(changeMe)
         console.log("STOPPED")
-    })
+    });
+
 </script>
-</html>
+</html> -->

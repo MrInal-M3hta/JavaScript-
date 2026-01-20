@@ -12,18 +12,16 @@
 
   <script>
 
-    // const sayDate = function(str){
-    //     console.log(str, Date.now());
-    // }
-
-    // const intervalId = setInterval(sayDate, 1000, "hi")
+    //const intervalID = setInterval(function(str){
+    //  console.log(str, Date.now())
+    //}, 1000, "Hi Luffy!")
 
     // clearInterval(intervalId)
 
     // Update version of this code is below ;
 
 
-    const sayDate = function (str) {
+    const sayDate = function (str) { // str = "Hi Luffy!"
       console.log(str, Date.now());
     };
 
@@ -41,7 +39,13 @@
             ✔ Start interval only if it is not already running.
 
         */
-        intervalId = setInterval(sayDate, 1000, "Hi 'Luffy!' ");
+        intervalId = setInterval(sayDate, 1000, "Hi Luffy!");
+        /*
+        We can use setInterval with both by refrencing the function or by using call back function method;
+        intervalId = setInterval(function(str){
+            console.log(str, Date.now())
+        }, 1000, "Hi Luffy!")
+        */
       };
     });
 
