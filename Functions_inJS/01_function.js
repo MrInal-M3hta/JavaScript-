@@ -93,7 +93,9 @@ console.log(myCounter.increment()); // 2
 // 8. CALLBACK FUNCTION
 // ============================================
 const fetchData = (callback) => {
-    setTimeout(() => callback("Data loaded"), 1000);
+    setTimeout(() => {
+        callback("Data loaded")
+    }, 1000);   
 };
 fetchData((data) => console.log(data));
 

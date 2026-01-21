@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<body style="text-align: right">
+
+<h1>JavaScript Functions</h1>
+<h2>Callback Functions</h2>
+<p id="demo"></p>
+
+<script>
+    // Create an Array
+    const myNumbers = [4, 1, -20, -7, 5, 9, -6];
+
+    // Call removeNeg with a Callback
+    const posNumbers = removeNeg(myNumbers, (x) => x >= 0);
+
+    // Display Result
+    document.getElementById("demo").innerHTML = posNumbers;
+
+    // Remove negative numbers
+    function removeNeg(numbers, callback) {
+        const myArray = [];
+        for (const x of numbers) {
+            if (callback(x)) {
+            myArray.push(x);
+        }
+    }
+    return myArray;
+    }
+
+    // In the example above, (x) => x >= 0 is a callback function.
+
+    // It is passed to removeNeg() as an argument.
+
+
+</script>
+
+</body>
+</html>
+
+<!-- 
+When to Use a Callback?
+
+The examples above are not very exciting.
+
+They are simplified to teach you the callback syntax.
+
+Where callbacks really shine are in asynchronous functions, where one function has to wait for another function (like waiting for a file to load).
+ -->
