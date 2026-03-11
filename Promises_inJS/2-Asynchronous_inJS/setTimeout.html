@@ -1,68 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Start Stop Timeout</title>
-</head>
-<body>
-  <h1>setTimeout</h1>
-  <button id="start">Start</button>
-  <button id="stop">Stop</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start Stop Timeout</title>
+  </head>
+  <body>
+    <h1>setTimeout</h1>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
 
-  <script>
-    const changeText = function () {
-      document.querySelector('h1').innerHTML = "One Piece is real";
-    };
+    <script>
+      const changeText = function () {
+        document.querySelector("h1").innerHTML = "One Piece is real";
+      };
 
-    let timeoutId = null; // 🔑 store timeout id
+      let timeoutId = null; // 🔑 store timeout id
 
-    // START
-    document.querySelector('#start').addEventListener('click', function () {
-      if (!timeoutId) { // prevent multiple timeouts
-        timeoutId = setTimeout(changeText, 2000);
-        console.log("Timeout started");
-      }
-    //   if (timeoutId === null) {
-    //     timeoutId = setTimeout(changeText, 2000);
-    //     console.log("Timeout started");
-    // }
-    });
-
-    // STOP
-    document.querySelector('#stop').addEventListener('click', function () {
-      clearTimeout(timeoutId);
-      timeoutId = null; // reset
-      console.log("STOPPED");
-    });
-
-
-    // Callback Hell
-    function getData(dataID, getNextData){
-      setTimeout(()=> {
-        console.log("DataID", dataID)
-        if(getNextData){
-          getNextData();
+      // START
+      document.querySelector("#start").addEventListener("click", function () {
+        if (!timeoutId) {
+          // prevent multiple timeouts
+          timeoutId = setTimeout(changeText, 2000);
+          console.log("Timeout started");
         }
-      }, 2000)
-    };
-
-    getData(1, ()=>{
-      getData(2, ()=>{
-        getData(3, ()=>{
-          getData(4)
-        })
+        //   if (timeoutId === null) {
+        //     timeoutId = setTimeout(changeText, 2000);
+        //     console.log("Timeout started");
+        // }
       });
-    });
 
-  </script>
-</body>
+      // STOP
+      document.querySelector("#stop").addEventListener("click", function () {
+        clearTimeout(timeoutId);
+        timeoutId = null; // reset
+        console.log("STOPPED");
+      });
+    </script>
+  </body>
 </html>
 
-
-
 <!-- ------------------------------------------------------------------------------------------------------------------ -->
-
 
 <!-- <!DOCTYPE html>
 <html lang="en">

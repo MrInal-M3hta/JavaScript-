@@ -1,0 +1,401 @@
+<!--
+================================================================================
+                    API REQUESTS IN JAVASCRIPT - DOCUMENTATION
+================================================================================
+
+FILE PURPOSE:
+This HTML file demonstrates all major methods of making API requests in 
+JavaScript, including modern approaches (Fetch API) and legacy methods (XMLHttpRequest).
+
+================================================================================
+                              KEY CONCEPTS
+================================================================================
+
+1. ASYNC/AWAIT (Modern & Recommended)
+   - Syntax: async function() { await fetch(...) }
+   - Advantage: Reads like synchronous code, easier to understand
+   - Best for: Most modern projects
+   - Returns: Promise that resolves to Response object
+
+2. .THEN() CHAINING (Promise-based)
+   - Syntax: fetch(...).then(...).catch(...)
+   - Advantage: Works in older browsers
+   - Best for: Legacy browser support
+   - Returns: Chain of Promise objects
+
+3. XMLHttpRequest (Legacy/Old Method)
+   - Syntax: new XMLHttpRequest()
+   - Advantage: Supported in very old browsers
+   - Best for: Old projects (avoid for new code)
+   - Returns: Event-based callbacks (onload, onerror)
+
+================================================================================
+                           HTTP REQUEST METHODS
+================================================================================
+
+GET:    Retrieve data from server (read-only)
+        Example: fetch(url) - default method
+        
+POST:   Send new data to server (create)
+        Example: fetch(url, { method: "POST", body: JSON.stringify(data) })
+        
+PUT:    Replace entire resource on server (update)
+        Example: fetch(url, { method: "PUT", body: JSON.stringify(data) })
+        
+DELETE: Remove resource from server (delete)
+        Example: fetch(url, { method: "DELETE" })
+
+================================================================================
+                          ESSENTIAL NOTES FOR BEGINNERS
+================================================================================
+
+FETCH BASICS:
+  ✓ fetch() is built into modern browsers
+  ✓ Always returns a Promise
+  ✓ Must chain .json() to read response body
+  ✓ Must check response.ok before processing (HTTP status check)
+  
+ASYNC/AWAIT PATTERN:
+  ✓ Function must be declared as "async"
+  ✓ Use "await" only inside async functions
+  ✓ await pauses execution until Promise resolves
+  ✓ Try/catch blocks handle errors gracefully
+  ✓ More readable than .then() chains
+  
+HEADERS:
+  ✓ "Content-Type": "application/json" tells server data format
+  ✓ Required for POST, PUT, DELETE requests
+  ✓ Omit for simple GET requests
+  
+ERROR HANDLING:
+  ✓ Network errors: thrown by fetch (connection failed)
+  ✓ HTTP errors: caught by checking response.ok
+  ✓ Parse errors: thrown when .json() fails
+  ✓ Always use try/catch with async/await
+  ✓ Always use .catch() with .then() chains
+  
+RESPONSE OBJECT:
+  ✓ response.ok = true if status 200-299
+  ✓ response.status = HTTP status code (200, 404, 500, etc.)
+  ✓ response.json() = parse response as JSON
+  ✓ response.text() = get response as plain text
+
+JSON.stringify():
+  ✓ Converts JavaScript object to JSON string
+  ✓ Used when sending data in POST/PUT requests
+  ✓ 3rd parameter (null, 2) = pretty-print with 2-space indentation
+
+================================================================================
+                        LEARNING PATH FOR BEGINNERS
+================================================================================
+
+Step 1: Start with simple GET request using async/await
+Step 2: Add error handling with try/catch
+Step 3: Learn POST request with body data
+Step 4: Understand response.ok checking
+Step 5: Compare async/await vs .then() syntax
+Step 6: Practice with public APIs (JSONPlaceholder)
+Step 7: Understand that XMLHttpRequest is legacy (avoid learning)
+
+================================================================================
+                         TESTING WITH JSONPLACEHOLDER
+================================================================================
+
+JSONPlaceholder is a free fake API perfect for testing:
+  ✓ GET  /posts/1     - Get single post
+  ✓ GET  /posts       - Get all posts
+  ✓ POST /posts       - Create new post
+  ✓ PUT  /posts/1     - Update post
+  ✓ DELETE /posts/1   - Delete post
+  
+No authentication needed, perfect for learning!
+
+================================================================================
+-->
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>API Requests - All Methods</title>
+        <style>
+            body {
+                font-family: Arial;
+                margin: 20px;
+                background: #f5f5f5;
+            }
+            .container {
+                max-width: 900px;
+                margin: auto;
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+            }
+            button {
+                padding: 10px 15px;
+                margin: 5px;
+                cursor: pointer;
+                background: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+            }
+            button:hover {
+                background: #0056b3;
+            }
+            .output {
+                background: #f9f9f9;
+                padding: 15px;
+                margin: 10px 0;
+                border-left: 4px solid #007bff;
+                border-radius: 4px;
+            }
+            .error {
+                border-left-color: #dc3545;
+                color: #dc3545;
+            }
+            .success {
+                border-left-color: #28a745;
+                color: #28a745;
+            }
+            pre {
+                background: #272822;
+                color: #f8f8f2;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>API Request Methods in JavaScript</h1>
+
+            <h2>1. Fetch API with Async/Await</h2>
+            <button id="btn1">GET Request (Async/Await)</button>
+            <div id="output1" class="output"></div>
+
+            <h2>2. Fetch API with .then()</h2>
+            <button id="btn2">GET Request (.then)</button>
+            <div id="output2" class="output"></div>
+
+            <h2>3. POST Request</h2>
+            <button id="btn3">POST Request</button>
+            <div id="output3" class="output"></div>
+
+            <h2>4. PUT Request</h2>
+            <button id="btn4">PUT Request</button>
+            <div id="output4" class="output"></div>
+
+            <h2>5. DELETE Request</h2>
+            <button id="btn5">DELETE Request</button>
+            <div id="output5" class="output"></div>
+
+            <h2>6. XMLHttpRequest (Old Method)</h2>
+            <button id="btn6">XMLHttpRequest</button>
+            <div id="output6" class="output"></div>
+
+            <h2>7. Error Handling</h2>
+            <button id="btn7">Test Error Handling</button>
+            <div id="output7" class="output"></div>
+        </div>
+
+        <script>
+            // ========== METHOD 1: Fetch with Async/Await ==========
+            async function fetchWithAsyncAwait() {
+                const output = document.getElementById("output1");
+                output.innerHTML = "<p>Loading...</p>";
+
+                try {
+                    const response = await fetch(
+                        "https://jsonplaceholder.typicode.com/posts/1",
+                    );
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+
+                    output.innerHTML = `
+                                        <strong class="success">✓ Success!</strong>
+                                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                                `;
+                } catch (error) {
+                    output.innerHTML = `<strong class="error">✗ Error: ${error.message}</strong>`;
+                }
+            }
+
+            // ========== METHOD 2: Fetch with .then() ==========
+            function fetchWithThen() {
+                const output = document.getElementById("output2");
+                output.innerHTML = "<p>Loading...</p>";
+
+                fetch("https://jsonplaceholder.typicode.com/posts/2")
+                    .then((response) => {
+                        if (!response.ok) throw new Error(`Status: ${response.status}`);
+                        return response.json();
+                    })
+                    .then((data) => {
+                        output.innerHTML = `
+                                                <strong class="success">✓ Success!</strong>
+                                                <pre>${JSON.stringify(data, null, 2)}</pre>
+                                        `;
+                    })
+                    .catch((error) => {
+                        output.innerHTML = `<strong class="error">✗ Error: ${error.message}</strong>`;
+                    });
+            }
+
+            // ========== METHOD 3: POST Request ==========
+            async function postRequest() {
+                const output = document.getElementById("output3");
+                output.innerHTML = "<p>Loading...</p>";
+
+                try {
+                    const response = await fetch(
+                        "https://jsonplaceholder.typicode.com/posts",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                title: "Test Post",
+                                body: "This is a test post",
+                                userId: 1,
+                            }),
+                        },
+                    );
+
+                    const data = await response.json();
+                    output.innerHTML = `
+                                        <strong class="success">✓ POST Success!</strong>
+                                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                                `;
+                } catch (error) {
+                    output.innerHTML = `<strong class="error">✗ Error: ${error.message}</strong>`;
+                }
+            }
+
+            // ========== METHOD 4: PUT Request ==========
+            async function putRequest() {
+                const output = document.getElementById("output4");
+                output.innerHTML = "<p>Loading...</p>";
+
+                try {
+                    const response = await fetch(
+                        "https://jsonplaceholder.typicode.com/posts/1",
+                        {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                id: 1,
+                                title: "Updated Title",
+                                body: "Updated content",
+                                userId: 1,
+                            }),
+                        },
+                    );
+
+                    const data = await response.json();
+                    output.innerHTML = `
+                                        <strong class="success">✓ PUT Success!</strong>
+                                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                                `;
+                } catch (error) {
+                    output.innerHTML = `<strong class="error">✗ Error: ${error.message}</strong>`;
+                }
+            }
+
+            // ========== METHOD 5: DELETE Request ==========
+            async function deleteRequest() {
+                const output = document.getElementById("output5");
+                output.innerHTML = "<p>Loading...</p>";
+
+                try {
+                    const response = await fetch(
+                        "https://jsonplaceholder.typicode.com/posts/1",
+                        {
+                            method: "DELETE",
+                        },
+                    );
+
+                    const data = await response.json();
+                    output.innerHTML = `
+                                        <strong class="success">✓ DELETE Success!</strong>
+                                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                                `;
+                } catch (error) {
+                    output.innerHTML = `<strong class="error">✗ Error: ${error.message}</strong>`;
+                }
+            }
+
+            // ========== METHOD 6: XMLHttpRequest (Legacy) ==========
+            function xmlHttpRequest() {
+                const output = document.getElementById("output6");
+                output.innerHTML = "<p>Loading...</p>";
+
+                const xhr = new XMLHttpRequest();
+
+                xhr.open("GET", "https://jsonplaceholder.typicode.com/posts/3", true);
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const data = JSON.parse(xhr.responseText);
+                        output.innerHTML = `
+                                                <strong class="success">✓ XHR Success!</strong>
+                                                <pre>${JSON.stringify(data, null, 2)}</pre>
+                                        `;
+                    }
+                };
+
+                xhr.onerror = function () {
+                    output.innerHTML = '<strong class="error">✗ XHR Error!</strong>';
+                };
+
+                xhr.send();
+            }
+
+            // ========== METHOD 7: Error Handling ==========
+            async function errorHandling() {
+                const output = document.getElementById("output7");
+                output.innerHTML = "<p>Testing error scenarios...</p>";
+
+                try {
+                    const response = await fetch("https://invalid-api-url-12345.com/api");
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                } catch (error) {
+                    output.innerHTML = `
+                                        <strong class="error">✗ Caught Error:</strong>
+                                        <pre>${error.message}</pre>
+                                        <p><strong>Error Types:</strong></p>
+                                        <ul>
+                                                <li>Network error (no internet)</li>
+                                                <li>Invalid URL</li>
+                                                <li>Server error (5xx)</li>
+                                                <li>Client error (4xx)</li>
+                                                <li>JSON parse error</li>
+                                        </ul>
+                                `;
+                }
+            }
+
+            // ========== EVENT LISTENERS ==========
+            document.getElementById("btn1").addEventListener("click", fetchWithAsyncAwait);
+            document.getElementById("btn2").addEventListener("click", fetchWithThen);
+            document.getElementById("btn3").addEventListener("click", postRequest);
+            document.getElementById("btn4").addEventListener("click", putRequest);
+            document.getElementById("btn5").addEventListener("click", deleteRequest);
+            document.getElementById("btn6").addEventListener("click", xmlHttpRequest);
+            document.getElementById("btn7").addEventListener("click", errorHandling);
+        </script>
+    </body>
+</html>

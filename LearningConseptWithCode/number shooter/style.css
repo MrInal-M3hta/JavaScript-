@@ -1,0 +1,43 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html,body{
+    height: 100%;
+    width: 100%;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: brown;
+    color: white;
+    padding: 10px 30px;
+    font-size: 40px;
+}
+
+.numberContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 60rem;
+    margin: auto;
+    padding: 40px;
+}
+
+.circle{
+    width: 60px;
+    height:56px;
+    background-color: rgb(216, 43, 43);
+    border-radius: 100%;
+    color: white;
+    display: grid;
+    place-content: center;
+    font-size: 23px;
+    cursor: grab;
+}

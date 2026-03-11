@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            background: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        li.completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .edit-btn {
+            background: #3498db;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+
+        .edit-btn:hover {
+            background: #2980b9;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+
+        .task-text {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 My Todo List</h1>
+        
+        <div class="input-group">
+            <input type="text" id="todoInput" placeholder="Add a new task...">
+            <button id="addBtn">Add</button>
+        </div>
+
+        <ul id="todoList"></ul>
+    </div>
+
+    <script>
+        const todoInput = document.getElementById('todoInput');
+        const todoList = document.getElementById('todoList');
+        const addBtn = document.getElementById('addBtn');
+
+        function addTodo() {
+            const text = todoInput.value.trim();
+            
+            if (text === '') {
+                alert('Please enter a task!');
+                return;
+            }
+
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span class="task-text">${text}</span>
+                <div class="action-buttons">
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                </div>
+            `;
+
+            const taskText = li.querySelector('.task-text');
+            const editBtn = li.querySelector('.edit-btn');
+            const deleteBtn = li.querySelector('.delete-btn');
+
+            taskText.addEventListener('click', () => {
+                li.classList.toggle('completed');
+                /*
+                    🔹 li
+	                    •	The <li> element of the todo item
+
+                    🔹 classList
+	                    •	A built-in object to manage CSS classes
+
+                    🔹 toggle('completed')
+                        •	If class exists → remove it
+                        •	If class doesn’t exist → add it
+
+                    This allows marking tasks as completed or uncompleted by clicking on the task text.
+
+                    🎨 WHY THIS WORKS (CSS LINK):
+                    In the CSS, we have defined styles for the 'completed' class:
+                    li.completed {
+                        text-decoration: line-through;
+                        color: #999;
+                    }
+                    When the 'completed' class is added to the <li> element, these styles are applied, visually indicating that the task is done.
+                        👉 Text becomes:
+                            •	crossed out
+                            •	gray color
+                */
+            });
+
+            editBtn.addEventListener('click', () => {
+                const newText = prompt('Edit task:', taskText.textContent);
+                if (newText !== null && newText.trim() !== '') {
+                    taskText.textContent = newText.trim();
+                }
+            });
+
+            deleteBtn.addEventListener('click', () => {
+                li.remove();
+            });
+
+            todoList.appendChild(li);
+            todoInput.value = '';
+            todoInput.focus();
+        }
+
+        addBtn.addEventListener('click', addTodo);
+
+        todoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+    </script>
+
+    <!-- <script>
+        const todoInput = document.getElementById('todoInput');
+        const todoList = document.getElementById('todoList');
+        const addBtn = document.getElementById('addBtn');
+
+        function addTodo() {
+            const text = todoInput.value.trim();
+            if (!text) return alert('Please enter a task!');
+
+            const li = document.createElement('li');
+
+            const span = document.createElement('span');
+            span.className = 'task-text';
+            span.textContent = text;
+
+            const actions = document.createElement('div');
+            actions.className = 'action-buttons';
+
+            const editBtn = document.createElement('button');
+            editBtn.className = 'edit-btn';
+            editBtn.textContent = 'Edit';
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = 'Delete';
+
+            actions.append(editBtn, deleteBtn);
+            li.append(span, actions);
+            todoList.appendChild(li);
+
+            todoInput.value = '';
+            todoInput.focus();
+        }
+
+        // Event delegation
+        todoList.addEventListener('click', (e) => {
+            const li = e.target.closest('li');
+            if (!li) return;
+
+            if (e.target.classList.contains('task-text')) {
+                li.classList.toggle('completed');
+            }
+
+            if (e.target.classList.contains('edit-btn')) {
+                const span = li.querySelector('.task-text');
+                const newText = prompt('Edit task:', span.textContent);
+                if (newText) span.textContent = newText.trim();
+            }
+
+            if (e.target.classList.contains('delete-btn')) {
+                li.remove();
+            }
+        });
+
+        addBtn.addEventListener('click', addTodo);
+
+        todoInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') addTodo();
+        });
+</script> -->
+
+</body>
+</html>

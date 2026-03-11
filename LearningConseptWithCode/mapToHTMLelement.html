@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Map Array to HTML Elements</title>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 1rem; }
+        ul { list-style: none; padding: 0; }
+        li { padding: .5rem 0; border-bottom: 1px solid #eee; }
+        a { color: #06c; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Users</h1>
+
+    <div style="margin:0 0 1rem 0">
+        <input id="userSearch" type="search" placeholder="Search users by name, email or age" style="width:100%;padding:.5rem" />
+    </div>
+
+    <ul id="userList"></ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const users = [
+                { id: 1, name: 'Luffy',   age: 19, email: 'luffy@example.com' },
+                { id: 2, name: 'Boa',     age: 34, email: 'boa@example.com' },
+                { id: 3, name: 'Zoro',    age: 21, email: 'zoro@example.com' },
+                { id: 4, name: 'Nami',    age: 20, email: 'nami@example.com' },
+                { id: 5, name: 'Sanji',   age: 21, email: 'sanji@example.com' },
+                { id: 6, name: 'Chopper', age: 17, email: 'chopper@example.com' },
+                { id: 7, name: 'Robin',   age: 29, email: 'robin@example.com' },
+                { id: 8, name: 'Franky',  age: 33, email: 'franky@example.com' },
+                { id: 9, name: 'Brook',   age: 90, email: 'brook@example.com' }
+            ];
+
+            const avatars = [
+                'https://i.pravatar.cc/80?img=14',
+                'https://i.pravatar.cc/80?img=32',
+                'https://i.pravatar.cc/80?img=47',
+                'https://i.pravatar.cc/80?img=7',
+                'https://i.pravatar.cc/80?img=12',
+                'https://i.pravatar.cc/80?img=18',
+                'https://i.pravatar.cc/80?img=21',
+                'https://i.pravatar.cc/80?img=29',
+                'https://i.pravatar.cc/80?img=40'
+            ];
+
+            // assign avatars to users (fallback to a generated avatar if out of range)
+            users.forEach((user, index) => {
+                user.avatar = avatars[index] || `https://i.pravatar.cc/80?img=${(i % 70) + 1}`;
+                /*
+                user.avatar : This line =>
+                    Creats the new property called avatar.
+                    Attaches it to the user object.
+
+                After this line , the object becomes:
+                {
+                    id: 1,
+                    name: "Luffy",
+                    age: 19,
+                    email: "luffy@example.com",
+                    avatar: "https://i.pravatar.cc/80?img=14"
+                }
+                Java script allows adding properties anytime -- no class is needed.
+
+                The oringnal user data didnt hava an avatar field.
+                This code dynamically adds avatar. 
+                */
+            });
+
+            const container = document.getElementById('userList');
+            const search = document.getElementById('userSearch');
+
+            const renderWithAvatars = (list) => {
+                container.innerHTML = list.map((u) => `
+                    <li data-id="${u.id}" style="display:flex;gap:.75rem;align-items:center;padding:.5rem 0;border-bottom:1px solid #eee">
+                        <img src="${u.avatar}" alt="${u.name}" width="56" height="56" style="border-radius:50%;object-fit:cover;flex:0 0 56px">
+                        <div>
+                            <strong>${u.name}</strong> (${u.age})<br>
+                            <a href="mailto:${u.email}">${u.email}</a>
+                        </div>
+                    </li>
+                `).join('');
+
+                /*
+
+                Template Literal (HTML Creation)::
+                `<li data-id="${u.id}">...</li>`
+                This creates HTML as a string.
+
+                🔹 data-id="${u.id}" ::
+                <li data-id="1">
+                This assigns a custom data attribute to each list item, allowing easy identification of users by their ID.
+                ✔ Stores user ID safely
+                ✔ Used later for click handling
+                ✔ Best practice for dynamic lists
+
+                .join('') Explanation::
+                .join('') is used to convert the array of strings into a single string before assigning it to innerHTML
+                This prevents unwanted commas between list items which would occur if we directly assigned the array to innerHTML without joining.
+                Explanation: When you use map, it returns an array.
+                If you set innerHTML to an array, it converts the array to a string by calling its toString method, which joins the elements with commas by default.
+                By using .join(''), we create a single string without any separators, ensuring the HTML structure is correct.
+
+                This is a common practice when dynamically generating HTML from arrays. 
+
+                Why needed?
+                    •	.map() returns an array
+                    •	innerHTML needs a string
+                    •	.join('') converts array to string without commas
+
+                Without .join():
+                    ["<li>Item 1</li>,<li>Item 2</li>,<li>Item 3</li>"]
+                With .join(''):
+                    <li>Item 1</li><li>Item 2</li><li>Item 3</li>
+                */
+            };
+
+            // initial render
+            renderWithAvatars(users);
+
+            // search handler
+
+            // search.addEventListener('input', () => {
+            //     const q = search.value.trim().toLowerCase();
+            //     const filtered = q === ''
+            //         ? users
+            //         : users.filter(u => `${u.name} ${u.email} ${u.age}`.toLowerCase().includes(q));
+            //     renderWithAvatars(filtered);
+            // });
+
+            search.addEventListener("input", function () {
+
+            // 1️⃣ Get search text
+            const query = search.value.toLowerCase().trim();
+
+            // 2️⃣ Default: show all users
+            let result = users; // If search box is empty → show everything.
+
+            // 3️⃣ Filter only if something is typed
+            if (query !== "") {
+                result = users.filter(function (user) {
+                const userText =(user.name + " " + user.email + " " + user.age).toLowerCase();
+                return userText.includes(query);
+                });
+            }
+            // 4️⃣ Re-render the list
+            renderWithAvatars(result);
+// 🧠 Easy Memory Rule
+//    Type → Read input → Filter data → Render UI
+            });
+        });
+    </script>
+</body>
+</html>

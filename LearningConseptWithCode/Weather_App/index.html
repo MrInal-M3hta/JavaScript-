@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <div class="search">
+        <input
+          class="city-input"
+          type="text"
+          placeholder="Enter city name"
+          spellcheck="true"
+        />
+        <button><img src="images/search.png" alt="search" /></button>
+      </div>
+
+      <div class="weather">
+        <img
+          src="images/clear.png"
+          alt="weather is good"
+          class="weather-icon"
+        />
+        <h1 class="temperature">1°C</h1>
+        <h2 class="city-name">Bageshwar</h2>
+      </div>
+
+      <div class="other-info">
+        <div class="info">
+          <img src="images/humidity.png" alt="" />
+          <div>
+            <p class="humidity-data">78%</p>
+            <h3 class="humidity">Humidity</h3>
+          </div>
+        </div>
+        <div class="info">
+          <img src="images/wind.png" alt="" />
+          <div>
+            <p class="windSpeed-data">5 km/h</p>
+            <h3 class="wind-speed">Wind Speed</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const apiKey = "1af22d10a3219e9ad37c0676744cd6da";
+      const apiUrl =
+        "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+      const displayBlock = document.querySelector(".weather");
+      const displayFlex = document.querySelector(".other-info");
+
+      const searchButton = document.querySelector(".search button");
+      const cityInput = document.querySelector(".city-input");
+      const weatherIcon = document.querySelector(".weather-icon");
+      const temperatureElement = document.querySelector(".temperature");
+      const cityNameElement = document.querySelector(".city-name");
+      const humidityElement = document.querySelector(".humidity-data");
+      const windSpeedElement = document.querySelector(".windSpeed-data");
+
+      async function fetchWeather(city) {
+        try {
+          const response = await fetch(`${apiUrl}${city}&appid=${apiKey}`);
+          if (!response.ok) {
+            throw new Error("City not found OR Enter correct City!!");
+          }
+          const data = await response.json();
+          updateWeather(data);
+        } catch (error) {
+          alert(error.message);
+        }
+      }
+
+      // searchButton.addEventListener("click", () => {
+      //     fetchWeather(cityInput.value);
+      // });
+
+      // Improve the search functionality to handle empty input and trim whitespace
+
+      searchButton.addEventListener("click", () => {
+        const city = cityInput.value.trim();
+        if (!city) {
+          alert("Please enter a city name");
+          return;
+        }
+        fetchWeather(city);
+      });
+
+      // Allow users to press "Enter" key to trigger the search
+
+      cityInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          searchButton.click();
+        }
+      });
+
+      // function updateWeather(data) {
+      //     temperatureElement.innerText = `${Math.round(data.main.temp)}°C`;
+      //     cityNameElement.innerText = data.name;
+      //     humidityElement.innerText = `${data.main.humidity}%`;
+      //     windSpeedElement.innerText = `${data.wind.speed} km/h`;
+
+      //     const weatherCondition = data.weather[0].main;
+      //     if (weatherCondition === "Clear") {
+      //         weatherIcon.src = "images/clear.png";
+      //     } else if (weatherCondition === "Clouds") {
+      //         weatherIcon.src = "images/clouds.png";
+      //     } else if (weatherCondition === "Rain") {
+      //         weatherIcon.src = "images/rain.png";
+      //     } else if (weatherCondition === "Snow") {
+      //         weatherIcon.src = "images/snow.png";
+      //     } else if (weatherCondition === "Drizzle") {
+      //         weatherIcon.src = "images/drizzle.png";
+      //     } else if (weatherCondition === "Thunderstorm") {
+      //         weatherIcon.src = "images/thunderstorm.png";
+      //     } else if (weatherCondition === "Mist") {
+      //         weatherIcon.src = "images/mist.png";
+      //     }
+      //     displayBlock.style.display = "block";
+      //     displayFlex.style.display = "flex";
+      // }
+
+      // Refactor the weather icon update logic to use a mapping object for better scalability
+
+      const weatherIcons = {
+        Clear: "images/clear.png",
+        Clouds: "images/clouds.png",
+        Rain: "images/rain.png",
+        Snow: "images/snow.png",
+        Drizzle: "images/drizzle.png",
+        Thunderstorm: "images/thunderstorm.png",
+        Mist: "images/mist.png",
+      };
+
+      function updateWeather(data) {
+        temperatureElement.innerText = `${Math.round(data.main.temp)}°C`;
+        cityNameElement.innerText = data.name;
+        humidityElement.innerText = `${data.main.humidity}%`;
+        windSpeedElement.innerText = `${(data.wind.speed * 3.6).toFixed(1)} km/h`;
+
+        const weatherCondition = data.weather[0].main;
+        weatherIcon.src = weatherIcons[weatherCondition] || "images/clear.png"; // Default to clear icon if condition is not in the mapping
+
+        displayBlock.style.display = "block";
+        displayFlex.style.display = "flex";
+      }
+    </script>
+  </body>
+</html>
